@@ -49,3 +49,18 @@ test("useVisualMode should not return to previous mode if already at initial", (
   expect(result.current.mode).toBe(FIRST);
 });
 
+// test the replace functionality of the transition function 
+test("useVisualMode should replace the current mode", () => {
+  const { result } = renderHook(() => useVisualMode(FIRST));
+
+  act(() => result.current.transition(SECOND));
+  expect(result.current.mode).toBe(SECOND);
+
+  // Passing "true" to transition(THIRD, true) says "Transition to THIRD by REPLACING SECOND"
+  act(() => result.current.transition(THIRD, true));
+  expect(result.current.mode).toBe(THIRD);
+
+  act(() => result.current.back());
+  expect(result.current.mode).toBe(FIRST);
+});
+
