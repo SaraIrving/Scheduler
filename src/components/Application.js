@@ -118,8 +118,8 @@ export default function Application(props) {
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
           <DayList
-            days={days}
-            day={currentDay}
+            days={state.days}
+            day={state.day}
             setDay={setCurrentDay}
           />
         </nav>
