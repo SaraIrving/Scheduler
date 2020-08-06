@@ -24,6 +24,7 @@ export default function useVisualMode(initialMode) {
     // create a copy of the current history that can be manipulated
     const currentHistory = history.slice();
 
+    if (currentHistory.length > 1) {
     //remove the last item from the currentHistory array to "go back"
     currentHistory.pop();
 
@@ -33,10 +34,11 @@ export default function useVisualMode(initialMode) {
     // find the last item in the current history array and set it as the new state of mode, does not update in real time
     const newMode = currentHistory.slice(-1)[0];
     setMode(newMode);
-    
+    };
 
   };
 
   return {mode, transition, back };
 
 }
+
