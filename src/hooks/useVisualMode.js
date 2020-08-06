@@ -4,7 +4,10 @@ export default function useVisualMode(initialMode) {
 
   const [mode, setMode] = useState(initialMode);
 
-  return {mode};
+  const transition = function( updatedMode) {
+    setMode(updatedMode);
+  }
 
+  return {mode, transition};
 
 }
