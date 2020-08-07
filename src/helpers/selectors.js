@@ -83,4 +83,60 @@ export function getInterview(state, interview) {
     return null;
   }
 
+};
+
+
+
+export function getInterviewersForDay(state, day) {
+
+  //this function should return an array of interviewer objects
+
+  //use the day argument to locate the correct day object inside state
+  //pull out the interviewers array from that which contains the id's of the interviewers available on the specified day 
+  //make a new array that holds the interviewer objects represented by the id's 
+  //return that new array of interviewer objects 
+
+  //check that the day argument provided matches a day in the state, if not return an empty array
+  //return an empty array when there are no interviewers available in the state
+
+
+  //check to see if there are any interviewers in the state ie: does the interviewer key have value and if there are days in the days array in the state
+  if (state.interviewers && state.days.length !== 0) {
+
+    // find the days array in the state
+    const daysArray = state.days;
+
+    //find the day object that matches the day argument
+    let dayObj;
+    for (let eachObj of daysArray) {
+      if( eachObj.name === day) {
+        dayObj = eachObj;
+      }
+    } 
+
+    //check to see that the day could be found  
+    if (dayObj) {
+    
+      //access the interviewers array out of dayObj
+      const interviewersIdArray = dayObj.interviewers;
+      
+      const interviewersObjArray = [];
+
+      for (let id of interviewersIdArray) {
+        for (let interviewer in state.interviewers){
+          if (id === Number(interviewer)) {
+            interviewersObjArray.push(state.interviewers[interviewer]);
+          }
+        } 
+      };
+
+      return interviewersObjArray;
+
+    } else {
+      return [];
+    }
+  } else {
+    return [];
+  }
 }
+ 
