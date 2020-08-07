@@ -5,18 +5,35 @@ export default function useVisualMode(initialMode) {
   const [mode, setMode] = useState(initialMode);
   const [history, setHistory] = useState([initialMode]);
 
-  const transition = function( updatedMode) {
-  
-    //this does not update mode in real time!
-    setMode(updatedMode);
+  const transition = function( updatedMode, replace = false ) {
 
-    //create a shallow copy of the current history array, add the new mode to it and then use setHistory to make history that new array?
+    //create a shallow copy of history that we can alter
     const currentHistory = history.slice();
+  
+    if(replace) {
+      //set history to reflect that we are replacing the current mode
+      //have updatedMode take the place of the last value in history instead of pushing it to history
+      currentHistory[currentHistory.length - 1] = updatedMode;
+
+      // update the state of mode-this does not update until a rerender!
+      setMode(updatedMode);
+
+       // use setHistory to update the state of history to be currentHistory-this does not update until a rerender!
+      setHistory(currentHistory);
+
+
+
+    } else {
+
+    // add the new mode to the end of currentHistory
     currentHistory.push(updatedMode);
    
+    // update the state of mode-this does not update until a rerender!
+    setMode(updatedMode);
 
-    //this does not update history in real time!
+    // use setHistory to update the state of history to be currentHistory-this does not update until a rerender!
     setHistory(currentHistory);
+    }
   };
 
   const back = function () {
@@ -41,4 +58,6 @@ export default function useVisualMode(initialMode) {
   return {mode, transition, back };
 
 }
+
+
 
