@@ -7,80 +7,6 @@ import DayList from "components/DayList";
 import Appointment from "components/Appointment/index";
 import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "../helpers/selectors";
 
-// const days = [
-//   {
-//     id: 1,
-//     name: "Monday",
-//     spots: 2,
-//   },
-//   {
-//     id: 2,
-//     name: "Tuesday",
-//     spots: 5,
-//   },
-//   {
-//     id: 3,
-//     name: "Wednesday",
-//     spots: 0,
-//   },
-// ];
-
-// const appointments = [
-//   {
-//     id: 1,
-//     time: "12pm",
-//   },
-//   {
-//     id: 2,
-//     time: "1pm",
-//     interview: {
-//       student: "BoBo McGee",
-//       interviewer: {
-//         id: 1,
-//         name: "Sylvia Palmer",
-//         avatar: "https://i.imgur.com/LpaY82x.png",
-//       }
-//     }
-//   },
-//   {
-//     id: 3,
-//     time: "2pm",
-//     interview: {
-//       student: "Lydia Miller-Jones",
-//       interviewer: {
-//         id: 1,
-//         name: "Sylvia Palmer",
-//         avatar: "https://i.imgur.com/LpaY82x.png",
-//       }
-//     }
-//   }, 
-//   {
-//     id: 4,
-//     time: "3pm",
-//     interview: {
-//       student: "Bob Dog",
-//       interviewer: {
-//         id: 1,
-//         name: "Cohana Roy",
-//         avatar: "https://i.imgur.com/FK8V841.jpg",
-//       }
-//     }
-//   },
-//   {
-//     id: 5,
-//     time: "4pm",
-//     interview: {
-//       student: "Felix Cat",
-//       interviewer: {
-//         id: 1,
-//         name: "Sven Jones",
-//         avatar:  "https://i.imgur.com/twYrpay.jpg",
-//       }
-//     }
-//   },
-// ];
-
-
 
 
 export default function Application(props) {
@@ -138,17 +64,36 @@ export default function Application(props) {
       axios.put(`/api/appointments/${id}`, {interview})
       .then((response) => {
         setState({...state, appointments});
-        res(response)
+        res(response);
       })
       .catch((error) => {
         console.log(error);
+        rej(error);
       })
 
-      console.log(id, interview);
-
-    })
+    });
     
   };
+
+  const cancelInterview = function(id) {
+    //use appointment id to find the right appointment and set it's interview data to null
+    //we have the appointment array of appointment objects that we made with getAppointmentsForDay
+  
+
+    //loop thorough appointments array and find the one that matches the appointment id argument:
+    let appointmentToDelete;
+
+    for (let appointmentObj of appointments) {
+      if (appointmentObj === id) {
+        appointmentToDelete = appointmentObj;
+      }
+    };
+
+    //now update the interview data within appointmentToDelete so that it is null
+    appointmentToDelete["interview"] = null; 
+    
+  }
+
 
   const appointmentsList = appointments.map(appointment => {
     const interview = getInterview(state, appointment.interview);
@@ -161,9 +106,13 @@ export default function Application(props) {
       interview={interview}
       interviewers={interviewers}
       bookInterview={bookInterview}
+      cancelInterview={cancelInterview}
       />
     );
   });
+
+  console.log('state.appointments within Application = ', typeof state.appointments)
+
 
   return (
     <main className="layout">
@@ -188,9 +137,8 @@ export default function Application(props) {
         />
       </section>
       <section className="schedule">
-        {/* Replace this with the schedule elements durint the "The Scheduler" activity. */}
         {appointmentsList}
-        <Appointment key="last" time="5pm" interviewers={interviewers} bookInterview={bookInterview}/>
+        <Appointment key="last" time="5pm" interviewers={interviewers} bookInterview={bookInterview} cancelInterview={cancelInterview}/>
       </section>
     </main>
   );
