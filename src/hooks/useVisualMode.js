@@ -33,8 +33,11 @@ export default function useVisualMode(initialMode) {
 
     // use setHistory to update the state of history to be currentHistory-this does not update until a rerender!
     setHistory(currentHistory);
+
     }
   };
+
+  console.log ('mode = ', mode);
 
   const back = function () {
   
