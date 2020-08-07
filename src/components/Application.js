@@ -123,6 +123,10 @@ export default function Application(props) {
   console.log('interviewers = ', interviewers);
 
 
+  function bookInterview(id, interview){
+    console.log(id, interview);
+  };
+
   const appointmentsList = appointments.map(appointment => {
     const interview = getInterview(state, appointment.interview);
 
@@ -133,6 +137,7 @@ export default function Application(props) {
       time={appointment.time}
       interview={interview}
       interviewers={interviewers}
+      bookInterview={bookInterview}
       />
     );
   });
@@ -162,7 +167,7 @@ export default function Application(props) {
       <section className="schedule">
         {/* Replace this with the schedule elements durint the "The Scheduler" activity. */}
         {appointmentsList}
-        <Appointment key="last" time="5pm" interviewers={interviewers}/>
+        <Appointment key="last" time="5pm" interviewers={interviewers} bookInterview={bookInterview}/>
       </section>
     </main>
   );
