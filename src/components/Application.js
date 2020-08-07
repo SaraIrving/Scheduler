@@ -134,9 +134,20 @@ export default function Application(props) {
                           [id] : appointment
     };
 
-    setState({...state, appointments});
+    return new Promise((res, rej) => {
+      axios.put(`/api/appointments/${id}`, {interview})
+      .then((response) => {
+        setState({...state, appointments});
+        res(response)
+      })
+      .catch((error) => {
+        console.log(error);
+      })
 
-    console.log(id, interview);
+      console.log(id, interview);
+
+    })
+    
   };
 
   const appointmentsList = appointments.map(appointment => {
