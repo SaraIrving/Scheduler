@@ -18,6 +18,8 @@ const SAVING = "SAVING";
 const DELETING = "DELETING";
 const CONFIRMDELETE = "CONFIRMDELETE";
 const EDIT = "EDIT";
+const ERROR_SAVE = "ERROR_SAVE";
+const ERROR_DELETE = "ERROR_DELETE";
 
 
 export default function Appointment (props) {
@@ -38,7 +40,7 @@ export default function Appointment (props) {
     .then(() => {
       transition(SHOW);
     })
-    .catch(error => console.log(error));
+    .catch(error => transition(ERROR_SAVE, true));
 
   };
     
@@ -47,9 +49,6 @@ export default function Appointment (props) {
     //transition to DELETING (showing status view) and then empty after the deletion in the database is finished. 
 
     //call props.cancelInterview
-    //transition to mode = CONFIRM
-    //add logic to add confirm dialog here too 
-    //after they confirm with transition to SHOW or to EMPTY?? OR does that happen automatically due to code at the top of this file that check if there is props.interview??
 
     transition(DELETING);
 
@@ -57,9 +56,7 @@ export default function Appointment (props) {
     .then(() => {
       transition(EMPTY);
     })
-    .catch(error => console.log(error));
-
-    
+    .catch(error => transition(ERROR_DELETE, true));
 
   }
 
@@ -76,7 +73,7 @@ export default function Appointment (props) {
       {mode === SAVING && <Status message={'Saving'}/>}
       {mode === DELETING && <Status message={'Deleting'}/>}
       {mode === CONFIRMDELETE && <Confirm message={"Are you sure you want to delete?"} onCancel={event => back()} onConfirm={deleteAppointment}/>}
-      {mode === EDIT && <Form name={props.interview.student} value={props.interview.interviewer} interviewers={props.interviewers} onSave={save} onCancel={event => back()}/>}
+      {mode === EDIT && <Form name={props.interview.student} value={props.interview.interviewer.id} interviewers={props.interviewers} onSave={save} onCancel={event => back()}/>}
       
       
     </article>
