@@ -30,8 +30,27 @@ export default function useApplicationData () {
 
   }, [])
 
+  const spotsRemaining = function (state, id) {
+    //state is the state
+    //id is the appointment id
+
+    //make a copy of state.days for us to manipulate
+
+    //given the list of appointments in state.appointments, filter out the onces that have an interview booked into an object that will have keys which are the appointment ids and values which are the appointment objects
+   
+
+    //loop through the object of appointments that have interviews booked and see how many of the keys match the appointment id's stored in the appointments array of each day objects in state.days, whenever they match, increase the count by one
+
+    //subtract the count value from 5 to get the number of spots remaining
+
+    //return spots remaining which represent the available spots left on the specified day 
+
+
+  }
+
   // bookInterview is a function which is called inside the save function when the user clicks on the SAVE button in the form when they are creating an interview or after they have edited an existing interview, it uses the appointment id and the interview object to update the state and then makes an axios put request
   function bookInterview(id, interview){
+
     const appointment = {
                           ...state.appointments[id],
                           interview: {...interview}
@@ -93,6 +112,9 @@ export default function useApplicationData () {
     
   };
 
+  console.log("HOOK:, state.days = ", state.days)
+  console.log("HOOK:, state.appointments = ", state.appointments)
+ 
   return {
           state,
           setDay,
