@@ -18,6 +18,9 @@ export default function Form (props) {
     props.onCancel();
   }
 
+  console.log('FORM: props.value = ', props.value);
+  console.log('FORM: props.name = ', props.name)
+
 
   return (
 
