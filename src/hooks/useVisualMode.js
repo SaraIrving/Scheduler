@@ -7,32 +7,40 @@ export default function useVisualMode(initialMode) {
 
   const transition = function( updatedMode, replace = false ) {
 
-    //create a shallow copy of history that we can alter
-    const currentHistory = history.slice();
+
   
     if(replace) {
-      //set history to reflect that we are replacing the current mode
-      //have updatedMode take the place of the last value in history instead of pushing it to history
-      currentHistory[currentHistory.length - 1] = updatedMode;
-
-      // update the state of mode-this does not update until a rerender!
+    
+      // update the state of mode
       setMode(updatedMode);
 
-       // use setHistory to update the state of history to be currentHistory-this does not update until a rerender!
-      setHistory(prev => ([...prev, updatedMode]));
+       // use setHistory to update the state of history to be currentHistory
+      setHistory((prev) => {
+       //create a shallow copy of prev that we can alter
+       const currentHistory = prev.slice();
+     
+        // alter currentHistory to reflect that we are replacing the current mode
+        // have updatedMode take the place of the last value in currentHistory 
+        currentHistory[currentHistory.length - 1] = updatedMode;
+        return currentHistory
+      });
 
 
 
     } else {
-
-    // add the new mode to the end of currentHistory
-    currentHistory.push(updatedMode);
    
     // update the state of mode-this does not update until a rerender!
     setMode(updatedMode);
 
-    // use setHistory to update the state of history to be currentHistory-this does not update until a rerender!
-    setHistory(prev => ([...prev, updatedMode]));
+    // use setHistory to update the state of history to be currentHistory
+    setHistory(prev => {
+       //create a shallow copy of prev that we can alter
+      const currentHistory = prev.slice();
+
+      // alter currentHistory to reflect that we are adding updatedMode to the array
+      currentHistory.push(updatedMode);
+      return currentHistory;
+    });
 
     }
   };
