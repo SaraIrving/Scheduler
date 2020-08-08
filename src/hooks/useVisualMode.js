@@ -19,7 +19,7 @@ export default function useVisualMode(initialMode) {
       setMode(updatedMode);
 
        // use setHistory to update the state of history to be currentHistory-this does not update until a rerender!
-      setHistory(currentHistory);
+      setHistory(prev => ([...prev, updatedMode]));
 
 
 
@@ -32,7 +32,7 @@ export default function useVisualMode(initialMode) {
     setMode(updatedMode);
 
     // use setHistory to update the state of history to be currentHistory-this does not update until a rerender!
-    setHistory(currentHistory);
+    setHistory(prev => ([...prev, updatedMode]));
 
     }
   };
