@@ -8,6 +8,7 @@ import Empty from "components/Appointment/Empty";
 import Form from "components/Appointment/Form";
 import Status from "components/Appointment/Status";
 import Confirm from "components/Appointment/Confirm";
+import Error from "components/Appointment/Error";
 
 import useVisualMode from "../../hooks/useVisualMode";
 
@@ -26,8 +27,9 @@ export default function Appointment (props) {
 
   const {mode, transition, back} = useVisualMode(props.interview ? SHOW : EMPTY);
 
-  console.log('APPOINTMENT: props = ', props);
+  //console.log('APPOINTMENT: props = ', props);
 
+  // save is called when a user clicks the save button on the form after putting in their details to book an appointment
   function save(name, interviewer){
     const interview = {
       student: name,
@@ -36,6 +38,7 @@ export default function Appointment (props) {
 
     transition(SAVING);
 
+    // make a put request, when it completes transition to SHOW mode
     props.bookInterview(props.id, interview)
     .then(() => {
       transition(SHOW);
@@ -44,14 +47,13 @@ export default function Appointment (props) {
 
   };
     
-
+  // deleteAppointment is a function that runs when a user clicks the icon to delete an existing appointment
   function deleteAppointment() {
-    //transition to DELETING (showing status view) and then empty after the deletion in the database is finished. 
+   
 
-    //call props.cancelInterview
+    transition(DELETING, true);
 
-    transition(DELETING);
-
+    //make a delete request, when it finished transition to EMPTY mode
     props.cancelInterview(props.id)
     .then(() => {
       transition(EMPTY);
@@ -74,6 +76,8 @@ export default function Appointment (props) {
       {mode === DELETING && <Status message={'Deleting'}/>}
       {mode === CONFIRMDELETE && <Confirm message={"Are you sure you want to delete?"} onCancel={event => back()} onConfirm={deleteAppointment}/>}
       {mode === EDIT && <Form name={props.interview.student} value={props.interview.interviewer.id} interviewers={props.interviewers} onSave={save} onCancel={event => back()}/>}
+      {mode === ERROR_SAVE && <Error onClose={event => back()} message={"Could not save your appointment"}/>}
+      {mode === ERROR_DELETE && <Error onClose={event => back()} message={"Could not delete your appointment"}/>}
       
       
     </article>
