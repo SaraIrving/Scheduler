@@ -88,7 +88,7 @@ export default function useApplicationData () {
     return new Promise((res, rej) => {
       axios.put(`/api/appointments/${id}`, {interview})
       .then((response) => {
-        setState({...state, appointments, days: daysArray});
+        setState({...state, appointments});
         res(response);
       })
       .catch((error) => {
@@ -117,7 +117,21 @@ export default function useApplicationData () {
           [id] : appointment
     };
 
+    //make a copy of state.days for us to manipulate, this will be what we use to update the value of days in the setState function
 
+    const daysArray = [...state.days];
+
+    //now withing the daysArray, find the day object that has a matching appointment id in it's appointments array when comparing to the id parameter
+
+    for (let dayObject of daysArray) {
+      for (let appointmentId of dayObject.appointments) {
+        if(appointmentId === id) {
+          dayObject.spots += 1; //or minus one
+        }
+      }
+    }
+
+    //now we have an updated daysArray which we can use to update state.days
 
     
     // return a promise with a delete request to remove the interview with the corresponding appointment id and then update the state once the delete request is finished 
