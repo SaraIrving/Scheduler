@@ -78,21 +78,38 @@ export default function Application(props) {
   const cancelInterview = function(id) {
     //use appointment id to find the right appointment and set it's interview data to null
     //we have the appointment array of appointment objects that we made with getAppointmentsForDay
-  
+    // console.log('APPLICATION: appointments = ', appointments);
+    // console.log('APPLICATION: id parameter = ', id);
 
-    //loop thorough appointments array and find the one that matches the appointment id argument:
-    let appointmentToDelete;
-
-    for (let appointmentObj of appointments) {
-      if (appointmentObj === id) {
-        appointmentToDelete = appointmentObj;
-      }
+    //loop thorough appointments array and find the object with an id that matches the appointment id argument:
+   
+    const appointment = {
+      ...state.appointments[id],
+      interview: null
     };
 
-    //now update the interview data within appointmentToDelete so that it is null
-    appointmentToDelete["interview"] = null; 
+    const appointments = {
+          ...state.appointments,
+          [id] : appointment
+    };
+
     
-  }
+    //now make a delete request to update the value of interview at the given appointment id
+
+    return new Promise((res, rej) => {
+      axios.delete(`/api/appointments/${id}`)
+      .then((response) => {
+        setState({...state, appointments});
+        res(response);
+      })
+      .catch((error) => {
+        console.log(error);
+        rej(error);
+      })
+
+    });
+    
+  };
 
 
   const appointmentsList = appointments.map(appointment => {
