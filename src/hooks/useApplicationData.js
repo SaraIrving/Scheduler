@@ -56,39 +56,63 @@ export default function useApplicationData () {
   // bookInterview is a function which is called inside the save function when the user clicks on the SAVE button in the form when they are creating an interview or after they have edited an existing interview, it uses the appointment id and the interview object to update the state and then makes an axios put request
   function bookInterview(id, interview){
 
-    const appointment = {
-                          ...state.appointments[id],
-                          interview: {...interview}
-                        };
+    // const appointment = {
+    //                       ...state.appointments[id],
+    //                       interview: {...interview}
+    //                     };
     
-    const appointments = {
-                          ...state.appointments,
-                          [id] : appointment
-    };
+    // const appointments = {
+    //                       ...state.appointments,
+    //                       [id] : appointment
+    // };
 
 
-    //make a copy of state.days for us to manipulate, this will be what we use to update the value of days in the setState function
+    // //make a copy of state.days for us to manipulate, this will be what we use to update the value of days in the setState function
 
-    const daysArray = [...state.days];
+    // const daysArray = [...state.days];
 
-    //now withing the daysArray, find the day object that has a matching appointment id in it's appointments array when comparing to the id parameter
+    // //now withing the daysArray, find the day object that has a matching appointment id in it's appointments array when comparing to the id parameter
 
-    for (let dayObject of daysArray) {
-      for (let appointmentId of dayObject.appointments) {
-        if(appointmentId === id) {
-          dayObject.spots -= 1; //or minus one
-        }
-      }
-    }
+    // for (let dayObject of daysArray) {
+    //   for (let appointmentId of dayObject.appointments) {
+    //     if(appointmentId === id) {
+    //       dayObject.spots -= 1; //or minus one
+    //     }
+    //   }
+    // }
 
-    //now we have an updated daysArray which we can use to update state.days
+    // //now we have an updated daysArray which we can use to update state.days
 
 
     //return a Promise which holds a put request which updates the appointments with the new interview and then updates the state once the request has completed 
     return new Promise((res, rej) => {
       axios.put(`/api/appointments/${id}`, {interview})
       .then((response) => {
-        setState({...state, appointments});
+        setState((prev) => {
+
+          const appointment = {
+            ...prev.appointments[id],
+            interview: {...interview}
+          };
+      
+          const appointments = {
+                ...prev.appointments,
+                [id] : appointment
+          };
+
+          const daysArray = [...prev.days];
+          for (let dayObject of daysArray) {
+            for (let appointmentId of dayObject.appointments) {
+              if(appointmentId === id) {
+                dayObject.spots -= 1;
+              }
+            }
+          }
+
+          return {...prev, appointments, days: daysArray};
+
+
+        });
         res(response);
       })
       .catch((error) => {
@@ -107,29 +131,29 @@ export default function useApplicationData () {
 
     //loop thorough appointments array and find the object with an id that matches the appointment id argument:
    
-    const appointment = {
-      ...state.appointments[id],
-      interview: null
-    };
+    // const appointment = {
+    //   ...state.appointments[id],
+    //   interview: null
+    // };
 
-    const appointments = {
-          ...state.appointments,
-          [id] : appointment
-    };
+    // const appointments = {
+    //       ...state.appointments,
+    //       [id] : appointment
+    // };
 
-    //make a copy of state.days for us to manipulate, this will be what we use to update the value of days in the setState function
+    // //make a copy of state.days for us to manipulate, this will be what we use to update the value of days in the setState function
 
-    const daysArray = [...state.days];
+    // const daysArray = [...state.days];
 
-    //now withing the daysArray, find the day object that has a matching appointment id in it's appointments array when comparing to the id parameter
+    // //now withing the daysArray, find the day object that has a matching appointment id in it's appointments array when comparing to the id parameter
 
-    for (let dayObject of daysArray) {
-      for (let appointmentId of dayObject.appointments) {
-        if(appointmentId === id) {
-          dayObject.spots += 1; //or minus one
-        }
-      }
-    }
+    // for (let dayObject of daysArray) {
+    //   for (let appointmentId of dayObject.appointments) {
+    //     if(appointmentId === id) {
+    //       dayObject.spots += 1; //or minus one
+    //     }
+    //   }
+    // }
 
     //now we have an updated daysArray which we can use to update state.days
 
@@ -139,7 +163,33 @@ export default function useApplicationData () {
     return new Promise((res, rej) => {
       axios.delete(`/api/appointments/${id}`)
       .then((response) => {
-        setState({...state, appointments});
+        setState((prev) => {
+
+          const appointment = {
+            ...prev.appointments[id],
+            interview: null
+          };
+      
+          const appointments = {
+                ...prev.appointments,
+                [id] : appointment
+          };
+
+          const daysArray = [...prev.days];
+          for (let dayObject of daysArray) {
+            for (let appointmentId of dayObject.appointments) {
+              if(appointmentId === id) {
+                dayObject.spots += 1;
+              }
+            }
+          }
+
+          return {...prev, appointments, days: daysArray};
+
+
+
+
+        });
         res(response);
       })
       .catch((error) => {
