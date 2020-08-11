@@ -56,7 +56,7 @@ const fixtures = {
 };
 
 export default {
-  get: jest.fun(url => {
+  get: jest.fn(url => {
     if (url === "/api/days") {
       return Promise.resolve({
         status: 200,
@@ -65,7 +65,7 @@ export default {
       });
     }
 
-    if (url === "api/appointments") {
+    if (url === "/api/appointments") {
       return Promise.resolve({
         status: 200,
         statusText: "OK",
