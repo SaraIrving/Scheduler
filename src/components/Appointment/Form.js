@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Button from "components/Button";
 import InterviewerList from "components/InterviewerList";
+import { resetWarningCache } from "prop-types";
 
 export default function Form (props) {
 
@@ -12,20 +13,21 @@ export default function Form (props) {
   const reset = function() {
     setName("");
     setInterviewer(null);
-  }
+  };
 
   const cancel = function () {
     reset();
     props.onCancel();
-  }
+  };
 
   const validate = function () {
     if(name === "") {
       setError("Student name cannot be blank");
       return;
     }
+    setError("");
     props.onSave(name, interviewer);
-  }
+  };
 
 
   return (
@@ -57,10 +59,5 @@ export default function Form (props) {
   </section>
 </main>
 
-
-
-
-  )
-
-
-}
+  );
+};
