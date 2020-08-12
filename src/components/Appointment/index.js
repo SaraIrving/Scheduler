@@ -27,7 +27,7 @@ export default function Appointment (props) {
 
   const {mode, transition, back} = useVisualMode(props.interview ? SHOW : EMPTY);
 
-  //console.log('APPOINTMENT: props = ', props);
+  console.log('APPOINTMENT: props = ', props);
 
   // save is called when a user clicks the save button on the form after putting in their details to book an appointment
   function save(name, interviewer){
@@ -38,12 +38,24 @@ export default function Appointment (props) {
 
     transition(SAVING);
 
-    // make a put request, when it completes transition to SHOW mode
+    if (mode === EDIT) {
+      props.editInterview(props.id, interview)
+    .then(() => {
+      transition(SHOW);
+    })
+    .catch(error => transition(ERROR_SAVE, true));
+
+    } else {
+      // make a put request, when it completes transition to SHOW mode
     props.bookInterview(props.id, interview)
     .then(() => {
       transition(SHOW);
     })
     .catch(error => transition(ERROR_SAVE, true));
+
+    }
+
+    
 
   };
     

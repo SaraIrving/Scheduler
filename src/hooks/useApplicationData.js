@@ -32,7 +32,7 @@ export default function useApplicationData () {
 
 
   // bookInterview is a function which is called inside the save function when the user clicks on the SAVE button in the form when they are creating an interview or after they have edited an existing interview, it uses the appointment id and the interview object to update the state and then makes an axios put request
-  function bookInterview(id, interview){
+  const bookInterview = function(id, interview){
 
     //return a Promise which holds a put request which updates the appointments with the new interview and then updates the state once the request has completed 
     return new Promise((res, rej) => {
@@ -64,6 +64,40 @@ export default function useApplicationData () {
           }
 
           return {...prev, appointments, days};
+        });
+        res(response);
+      })
+      .catch((error) => {
+        console.log(error);
+        rej(error);
+      })
+
+    });
+    
+  };
+
+  // bookInterview is a function which is called inside the save function when the user clicks on the SAVE button in the form when they are creating an interview or after they have edited an existing interview, it uses the appointment id and the interview object to update the state and then makes an axios put request
+  const editInterview = function (id, interview){
+
+    //return a Promise which holds a put request which updates the appointments with the new interview and then updates the state once the request has completed 
+    return new Promise((res, rej) => {
+      axios.put(`/api/appointments/${id}`, {interview})
+      .then((response) => {
+        setState((prev) => {
+
+          //make a copy of prev.appointments and update the interview property of the appointments object that corresponds to the appointment id parameter
+          const appointment = {
+            ...prev.appointments[id],
+            interview: {...interview}
+          };
+      
+          //make a copy of prev.appointments and update it to have a key equal to the appointment id which has a corresponding value equal to the recently updated appointment variable
+          const appointments = {
+                ...prev.appointments,
+                [id] : appointment
+          };
+
+          return {...prev, appointments};
         });
         res(response);
       })
@@ -128,6 +162,7 @@ export default function useApplicationData () {
           state,
           setDay,
           bookInterview,
+          editInterview,
           cancelInterview
           };
 

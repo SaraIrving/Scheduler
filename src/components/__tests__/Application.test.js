@@ -149,7 +149,7 @@ describe("Application", () => {
      const day = getAllByTestId(container, "day").find(day => queryByText(day, "Monday"));
 
 
-    // expect(getByText(day, "1 spot remaining")).toBeInTheDocument();
+    expect(getByText(day, "1 spot remaining")).toBeInTheDocument();
 
   });
 
@@ -208,18 +208,15 @@ describe("Application", () => {
     // 3. Click the "delete" button on the booked appointment
     const appointment = getAllByTestId(container, "appointment").find(appointment => queryByText(appointment, "Archie Cohen"));
 
-
     fireEvent.click(queryByAltText(appointment, "Delete"));
  
-
     //4. Check that the confirmation message is shown
     expect(getByText(appointment, "Are you sure you want to delete?")).toBeInTheDocument();
     
-
     //5. Click the "confirm" button on the confirmation
     fireEvent.click(queryByText(appointment, "Confirm"));
 
-    
+  
     //6. Check that the element with the text "Deleting" is displayed 
     expect(getByText(appointment, "Deleting")).toBeInTheDocument();
 

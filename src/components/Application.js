@@ -17,6 +17,7 @@ export default function Application(props) {
           state, 
           setDay, 
           bookInterview,
+          editInterview,
           cancelInterview
         } = useApplicationData();
 
@@ -37,6 +38,7 @@ export default function Application(props) {
       interview={interview}
       interviewers={interviewers}
       bookInterview={bookInterview}
+      editInterview={editInterview}
       cancelInterview={cancelInterview}
       />
     );
