@@ -38,7 +38,9 @@ export default function Appointment (props) {
 
     transition(SAVING);
 
+    //check if they are saving a new appointment or an edited appointment
     if (mode === EDIT) {
+      // make a put request, when it completes transition to SHOW mode
       props.editInterview(props.id, interview)
     .then(() => {
       transition(SHOW);
@@ -54,8 +56,6 @@ export default function Appointment (props) {
     .catch(error => transition(ERROR_SAVE, true));
 
     }
-
-    
 
   };
     
