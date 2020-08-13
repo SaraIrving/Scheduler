@@ -31,7 +31,7 @@ export default function useApplicationData () {
   }, [])
 
 
-  // bookInterview is a function which is called inside the save function when the user clicks on the SAVE button in the form when they are creating an interview or after they have edited an existing interview, it uses the appointment id and the interview object to update the state and then makes an axios put request
+  // bookInterview is a function which is called inside the save function when the user clicks on the SAVE button in the form when they are creating an interview, it uses the appointment id and the interview object to update the state and then makes an axios put request
   const bookInterview = function(id, interview){
 
     //return a Promise which holds a put request which updates the appointments with the new interview and then updates the state once the request has completed 
@@ -76,7 +76,7 @@ export default function useApplicationData () {
     
   };
 
-  // bookInterview is a function which is called inside the save function when the user clicks on the SAVE button in the form when they are creating an interview or after they have edited an existing interview, it uses the appointment id and the interview object to update the state and then makes an axios put request
+  // editInterview is a function which is called inside the save function when the user clicks on the SAVE button in the form when they are finished editing an existing interview , it uses the appointment id and the interview object to update the state and then makes an axios put request
   const editInterview = function (id, interview){
 
     //return a Promise which holds a put request which updates the appointments with the new interview and then updates the state once the request has completed 
