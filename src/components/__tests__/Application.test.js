@@ -6,15 +6,11 @@ import { render, cleanup, waitForElement, fireEvent, getByText, prettyDOM, getAl
 
 import Application from "components/Application";
 
-import { act } from 'react-dom/test-utils';
-
-//afterEach(cleanup);
 
 
 describe("Application", () => {
 
   afterEach(() => {
-    console.log("DO you even fire?");
     cleanup();
     jest.restoreAllMocks();
   });
@@ -78,7 +74,6 @@ describe("Application", () => {
 
     //2. Wait until the text "Archie Cohen" is displayed
     await waitForElement(() => getByText(container, "Archie Cohen"));
-    debug();
 
      //3. Click the "delete" button on the booked appointment
     const appointment = getAllByTestId(container, "appointment").find(appointment => queryByText(appointment, "Archie Cohen"));
@@ -117,11 +112,9 @@ describe("Application", () => {
 
     //2.Wait until the text "Archie Cohen" is displayed
     await waitForElement(() => getByText(container, "Archie Cohen"));
-    debug();
 
     //3.Click the "Edit" button on Archie's booked appointment 
     const appointment = getAllByTestId(container, "appointment").find(appointment => queryByText(appointment, "Archie Cohen"));
-
 
     fireEvent.click(queryByAltText(appointment, "Edit"));
 
@@ -144,8 +137,6 @@ describe("Application", () => {
      expect(getByText(editedAppointment, /Archie Andrews/i)).toBeInTheDocument();
 
      //8. Check that the DayListItem with the text "Monday" still has 1 spot remaining
-
-     //debug();
      const day = getAllByTestId(container, "day").find(day => queryByText(day, "Monday"));
 
 
@@ -162,9 +153,7 @@ describe("Application", () => {
 
      //2.Wait until the text "Archie Cohen" is displayed
      await waitForElement(() => getByText(container, "Archie Cohen"));
-     debug();
-
-
+  
     //3. simulate clicking on the add appointment icon
     const appointment = getAllByTestId(container, "appointment")[0];
     fireEvent.click(getByAltText(appointment, "Add"));
@@ -203,7 +192,6 @@ describe("Application", () => {
 
     //2.Wait until the text "Archie Cohen" is displayed
     await waitForElement(() => getByText(container, "Archie Cohen"));
-    debug();
 
     // 3. Click the "delete" button on the booked appointment
     const appointment = getAllByTestId(container, "appointment").find(appointment => queryByText(appointment, "Archie Cohen"));
@@ -230,7 +218,6 @@ describe("Application", () => {
 
     //9. should be taken back to the show state, where would  expect out appointment to still be there showing the name Archie Cohen
     expect(getByText(appointment, "Archie Cohen")).toBeInTheDocument();
-
 
   });
 
