@@ -52,5 +52,24 @@ describe("Appointments", () => {
     cy.contains(".appointment__card--show", "Tori Malcolm");
 
   });
-  
+
+  it("should cancel an interview", () => {
+
+     // clicks the delete button of the appointment of Archie Cohen
+     cy.get("[alt='Delete']").first().click({force:true});
+
+     // clicks the Confirm button
+     cy.contains("Confirm").click();
+
+     // check that the "Deleting" indicator exists
+     cy.contains("Deleting").should('exist');
+
+     // check that "Deleting" indicator no longer exists
+     cy.contains("Deleting").should('not.exist');
+
+     // check that the ".appointment__card--show" element that contains the text "Archie Cohen" should not exist
+     cy.contains(".appointment__card--show", "Archie Cohen").should('not.exist');
+
+  });
+
 })
