@@ -46,5 +46,5 @@ npm run storybook
 ### Display Confirmation Before Deleting
 !["Confirm Before Deleting"](https://raw.githubusercontent.com/SaraIrving/Scheduler/master/docs/ConfirmBeforeDelete.png)
 
-### Display An Error Unable To Save
+### Display An Error If Unable To Save
 !["Saving error message"](https://raw.githubusercontent.com/SaraIrving/Scheduler/master/docs/ErrorWhenSaving.png)
