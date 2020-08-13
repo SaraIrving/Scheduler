@@ -14,13 +14,6 @@ describe("Appointments", () => {
   })
   
   it("should book an interview", () => {
-    // //reset the database
-    // cy.request("GET", "/api/debug/reset");
-
-    // //goes to root and waits for data to load
-    // cy.visit("/");
-    
-    // cy.contains("Monday");
 
     //clicks the add button on the second appointment 
     cy.get("[alt=Add").first().click();
@@ -38,6 +31,26 @@ describe("Appointments", () => {
     cy.contains(".appointment__card--show", "Lydia Miller-Jones");
     cy.contains(".appointment__card--show", "Sylvia Palmer");
 
+  });
 
-  })
+  it("should edit an interview", () => {
+
+    // clicks the edit button of the appointment of Archie Cohen
+    cy.get("[alt='Edit']").first().click({force:true});
+
+    //clear the input and change the name of the student on the booking 
+    cy.get("[data-testid='student-name-input']").clear().type("Lydia Miller-Jones");
+
+    // choose "Tori Malcolm" as the interviewer
+     cy.get("[alt='Tori Malcolm']").click();
+
+    // clicks the Save button
+    cy.contains("Save").click();
+
+    // wait until we can see the appointment, verify that we show the student and interviewer names within and element that has the ".appointment__card--show" class.
+    cy.contains(".appointment__card--show", "Lydia Miller-Jones");
+    cy.contains(".appointment__card--show", "Tori Malcolm");
+
+  });
+  
 })
