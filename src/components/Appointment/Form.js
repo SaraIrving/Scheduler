@@ -56,8 +56,8 @@ export default function Form (props) {
   </section>
   <section className="appointment__card-right">
     <section className="appointment__actions">
-      <Button onClick={(event) => cancel()} danger>Cancel</Button>
-      <Button onClick={(event) => validate()} confirm>Save</Button>
+      <Button onClick={cancel} danger>Cancel</Button>
+      <Button onClick={validate} confirm>Save</Button>
     </section>
   </section>
 </main>
