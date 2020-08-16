@@ -26,8 +26,7 @@ const ERROR_DELETE = "ERROR_DELETE";
 export default function Appointment (props) {
 
   const {mode, transition, back} = useVisualMode(props.interview ? SHOW : EMPTY);
-
-  console.log('APPOINTMENT: props = ', props);
+  
 
   // save is called when a user clicks the save button on the form after putting in their details to book an appointment
   function save(name, interviewer){

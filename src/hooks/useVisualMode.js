@@ -45,7 +45,6 @@ export default function useVisualMode(initialMode) {
     }
   };
 
-  console.log ('mode = ', mode);
 
   const back = function () {
   

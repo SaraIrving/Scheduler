@@ -67,7 +67,6 @@ export default function useApplicationData () {
         res(response);
       })
       .catch((error) => {
-        console.log(error);
         rej(error);
       })
 
@@ -149,7 +148,6 @@ export default function useApplicationData () {
         res(response);
       })
       .catch((error) => {
-        console.log(error);
         rej(error);
       })
 
